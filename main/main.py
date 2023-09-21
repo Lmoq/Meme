@@ -1,8 +1,10 @@
 import time
+import random
 import tkinter as tk
 import keyboard as keyb
-from queue import Queue
 from my import InvWin
+from queue import Queue
+
 
 
 class Meme(InvWin):
@@ -13,11 +15,33 @@ class Meme(InvWin):
         self.text_queue = Queue()
         self.timer_running = False
         self.display_time = True
+        self.playing_video = False
 
         self.start_time = 0
+        self.meme_start_time = 0
         self.timer_label = None
 
+        self.cena = random.randint(600,900)
+
         self.place_timelabel()
+        self.meme_start()
+
+
+    def run_meme_timer(self):
+        time_ = time.time() - self.meme_start_time
+
+        if time_ > self.cena:
+            if not self.playing_video:
+                # keep condition from executing once
+                self.playing_video = True
+                self.play_video('cena', self.cena_audio,0.4675,0.533)
+                # increment time trigger
+                self.cena += 1000
+                self.cena = random.randint(self.cena,self.cena+200)
+                # reset
+                self.playing_video = False
+                print('reset')
+        self.root.after(20,self.run_meme_timer)
 
 
     def run_timer(self):
@@ -47,6 +71,12 @@ class Meme(InvWin):
         # starts timer
         self.start_time = time.time()
         self.run_timer()
+    
+
+    def meme_start(self):
+        """start meme timer"""
+        self.meme_start_time = time.time()
+        self.run_meme_timer()
 
 
     def toggle_timer(self):
