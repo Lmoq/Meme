@@ -13,6 +13,7 @@ class Meme(InvWin):
     def __init__(self):
         super().__init__()
         self.text_queue = Queue()
+        self.running = True
         self.timer_running = False
         self.display_time = True
         self.playing_video = False
@@ -21,26 +22,27 @@ class Meme(InvWin):
         self.meme_start_time = 0
         self.timer_label = None
 
-        self.cena = random.randint(600,900)
+        self.cena = random.randint(3,4)
 
         self.place_timelabel()
         self.meme_start()
 
 
     def run_meme_timer(self):
+        if not self.running:
+            return
+        
         time_ = time.time() - self.meme_start_time
 
         if time_ > self.cena:
-            if not self.playing_video:
-                # keep condition from executing once
-                self.playing_video = True
-                self.play_video('cena', self.cena_audio,0.4675,0.533)
-                # increment time trigger
-                self.cena += 1000
-                self.cena = random.randint(self.cena,self.cena+200)
-                # reset
-                self.playing_video = False
-                print('reset')
+            self.cena = self.play_meme(
+                'cena', 
+                self.cena_audio, 
+                self.cena,
+                0.4675,
+                0.533,
+                1000 )
+            
         self.root.after(20,self.run_meme_timer)
 
 
@@ -56,6 +58,26 @@ class Meme(InvWin):
             self.timer_label['text'] = time_str
 
         self.root.after(20,self.run_timer)
+    
+
+    def play_meme(self, keyname:str, audio:str, time_var : object, offx:int, offy:int, inc_time:int) -> int:
+        """Returns incremented int value -> inc_time : int = Increment time for next call
+        keyname : str = Get data frame from dictionary key,
+        audio : str = Audio path,
+        time_var : object =  class attr time referrence
+        offx, offy : int = Label offset anchored to center,
+        """
+        if not self.playing_video:
+            # keep condition from executing more than once in instant
+            self.playing_video = True
+            self.play_video(keyname, audio, offx, offy)
+            # increment time trigger
+            time_var += inc_time
+            time_var = random.randint(time_var, time_var+200)
+            # reset
+            self.playing_video = False
+
+            return time_var
 
 
     def format_time(self,time:float):
@@ -81,7 +103,6 @@ class Meme(InvWin):
 
     def toggle_timer(self):
         self.timer_running = not self.timer_running
-
         if self.timer_running:
             self.timer_start()
         
@@ -102,13 +123,20 @@ class Meme(InvWin):
         self.timer_label.place(x=1150,y=30)
 
         keyb.add_hotkey('.+1', self.toggle_timer)
-        keyb.add_hotkey('.+0', self.root.destroy)
+        keyb.add_hotkey('.+0', self.exit_)
         keyb.add_hotkey('.+2', self.show_timer)
+    
+
+    def exit_(self):
+        self.runnin = False
+        self.root.destroy()
+
 
 
 
 if __name__=='__main__':
     app = Meme()
     app.main()
+    input()
 
     pass
