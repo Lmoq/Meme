@@ -1,16 +1,18 @@
+import tkinter as tk
 from pathlib import Path
-from my import save_frames
+from my import SaveVideo
 
-base_folder = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\edited').resolve()
-shelf = str(Path(__file__).resolve().parent / 'data/frames.dat')
+def save_framedata():
+    db_path = Path(__file__).resolve().parent / 'data/videos.db'
+    db = SaveVideo(str(db_path))
+
+    db.connect()
 
 
 
 
 if __name__=='__main__':
     
-    vid = str(base_folder/'bing_cleaned.mp4')
-    audio = str(base_folder/'bing_cleaned.wav')
-    
-    save_frames(shelf, vid, audio, 'cena')
+
+
     pass
