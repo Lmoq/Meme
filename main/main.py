@@ -2,7 +2,8 @@ import time
 import random
 import tkinter as tk
 import keyboard as keyb
-from my import InvWin
+from pathlib import Path
+from my import InvWin, FrameData
 from queue import Queue
 
 
@@ -21,6 +22,9 @@ class Meme(InvWin):
         self.start_time = 0
         self.meme_start_time = 0
         self.timer_label = None
+
+        self.db_path = Path(__file__).resolve().parent / 'modules/data/videos.db'
+        self.db = FrameData(self.db_path)
 
         self.cena = random.randint(3,4)
 
@@ -128,7 +132,7 @@ class Meme(InvWin):
     
 
     def exit_(self):
-        self.runnin = False
+        self.running = False
         self.root.destroy()
 
 
