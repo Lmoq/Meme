@@ -6,11 +6,9 @@ def save_framedata():
     db_path = Path(__file__).resolve().parent / 'data/videos.dat'
     db = FrameData(str(db_path))
 
-    vid_folder = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\edited').resolve()
-    video = str(vid_folder / 'bing_cleaned.mp4')
-    audio = str(vid_folder / 'bing_cleaned.wav')
+    vid_folder = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\images').resolve()
 
-    db.save_frames('cena', video, audio)
+    db.save_frames(vid_folder)
 
 
 

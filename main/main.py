@@ -23,17 +23,19 @@ class Meme(InvWin):
         self.meme_start_time = 0
         self.timer_label = None
 
-        self.db_path = Path(__file__).resolve().parent / 'modules/data/videos.db'
-        self.db = FrameData(self.db_path)
+        # self.db_path = Path(__file__).resolve().parent / 'modules/data/videos.db'
 
         self.cena = random.randint(3,4)
 
         self.place_timelabel()
+        # read video frames
+        self.load_video_frames()
         self.meme_start()
 
 
     def run_meme_timer(self):
         if not self.running:
+            print('returned')
             return
         
         time_ = time.time() - self.meme_start_time
@@ -134,6 +136,7 @@ class Meme(InvWin):
     def exit_(self):
         self.running = False
         self.root.destroy()
+        exit(0)
 
 
 
@@ -141,6 +144,5 @@ class Meme(InvWin):
 if __name__=='__main__':
     app = Meme()
     app.main()
-    input()
 
     pass
