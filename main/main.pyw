@@ -3,12 +3,12 @@ import random
 import tkinter as tk
 import keyboard as keyb
 from pathlib import Path
-from my import InvWin, FrameData
+from modules.invwin import MemeWin
 from queue import Queue
 
 
 
-class Meme(InvWin):
+class Meme(MemeWin):
 
 
     def __init__(self):
@@ -23,14 +23,35 @@ class Meme(InvWin):
         self.meme_start_time = 0
         self.timer_label = None
 
-        # self.db_path = Path(__file__).resolve().parent / 'modules/data/videos.db'
+        self.media = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\edited').resolve()
+        
+        # self.cena_vid = self.get_m('bing_cleaned.mp4')
+        # self.cena_audio = self.get_m('bing_cleaned.wav')
+        # self.cena = random.randint(3,4)
 
-        self.cena = random.randint(3,4)
+        # self.franku_vid = self.get_m('franku.mp4')
+        # self.franku_audio = self.get_m('franku.wav')
+        # self.franku = random.randint(20,23)
+
+        self.shok_vid = self.get_m('shocked_cleaned.mp4')
+        self.shok_audio = self.get_m('shocked_cleaned.wav')
+        self.shok = random.randint(500,600)
 
         self.place_timelabel()
-        # read video frames
-        self.load_video_frames()
+        # load dictionary keys
+        self.load_dict()
         self.meme_start()
+    
+
+    def load_dict(self):
+        # configure video setup
+        # self.dic_img['cena'] = self.cena_vid, self.cena_audio, 0.4675, 0.533
+        # self.dic_img['franku'] = self.franku_vid, self.franku_audio, 0.80, 0.80
+        self.dic_img['shocked'] = self.shok_vid, self.shok_audio, 0.50, 0.54
+
+
+    def get_m(self,filename):
+        return str(self.media / filename)
 
 
     def run_meme_timer(self):
@@ -39,15 +60,17 @@ class Meme(InvWin):
             return
         
         time_ = time.time() - self.meme_start_time
+        # if time_ > self.cena:
+        #     self.cena = self.play_meme('cena', self.cena, 40 )
+        #     pass
+        
+        # if time_ > self.franku:
+        #     print('playing ')
+        #     self.franku = self.play_meme('franku', self.franku, 30)
+        #     print(self.franku)
 
-        if time_ > self.cena:
-            self.cena = self.play_meme(
-                'cena', 
-                self.cena_audio, 
-                self.cena,
-                0.4675,
-                0.533,
-                1000 )
+        if time_ > self.shok:
+            self.shok = self.play_meme('shocked', self.shok, 500)
             
         self.root.after(20,self.run_meme_timer)
 
@@ -66,7 +89,7 @@ class Meme(InvWin):
         self.root.after(20,self.run_timer)
     
 
-    def play_meme(self, keyname:str, audio:str, time_var : object, offx:int, offy:int, inc_time:int) -> int:
+    def play_meme(self, keyname:str, time_var : object, inc_time:int) -> int:
         """Returns incremented int value -> inc_time : int = Increment time for next call
         keyname : str = Get data frame from dictionary key,
         audio : str = Audio path,
@@ -76,10 +99,10 @@ class Meme(InvWin):
         if not self.playing_video:
             # keep condition from executing more than once in instant
             self.playing_video = True
-            self.play_video(keyname, audio, offx, offy)
+            self.play_video(keyname)
             # increment time trigger
             time_var += inc_time
-            time_var = random.randint(time_var, time_var+200)
+            time_var = random.randint(time_var, time_var+2) # 200
             # reset
             self.playing_video = False
 
