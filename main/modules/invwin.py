@@ -1,3 +1,4 @@
+import os
 import time
 import tkinter as tk
 import cv2 as cv
@@ -23,6 +24,9 @@ class MemeWin(InvWin):
         dict[keyname] = vid, audio, offx ,offy"""
         # Get value from dictionary setup label and display frames
         vid_path, audio, x, y = self.dic_img[keyname]
+        if not os.path.exists(vid_path):
+            print('File not found')
+            return
         # Setup label
         video_label = tk.Label(
             self.root,
@@ -76,8 +80,8 @@ class MemeWin(InvWin):
 
     def display_frames(self,frame_list,label):
         if not frame_list:
-            print('destroyed')
             label.destroy()
+            self.frame_list.clear()
             del frame_list
             return
         

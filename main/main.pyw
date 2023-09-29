@@ -4,6 +4,7 @@ import tkinter as tk
 import keyboard as keyb
 from pathlib import Path
 from modules.invwin import MemeWin
+from pygame import mixer
 from queue import Queue
 
 
@@ -24,30 +25,57 @@ class Meme(MemeWin):
         self.timer_label = None
 
         self.media = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\edited').resolve()
-        
-        # self.cena_vid = self.get_m('bing_cleaned.mp4')
-        # self.cena_audio = self.get_m('bing_cleaned.wav')
-        # self.cena = random.randint(3,4)
+        self.audio = Path(r'C:\Users\Burac\Desktop\-\Time\main\test\audio').resolve()
 
-        # self.franku_vid = self.get_m('franku.mp4')
-        # self.franku_audio = self.get_m('franku.wav')
-        # self.franku = random.randint(20,23)
+        # templates
+        self.cena_vid = self.get_m('bing_cleaned.mp4')
+        self.cena_audio = self.get_m('bing_cleaned.wav')
+        self.cena = random.randint(3,4)
+
+        self.franku_vid = self.get_m('franku.mp4')
+        self.franku_audio = self.get_m('franku.wav')
+        self.franku = random.randint(20,23)
 
         self.shok_vid = self.get_m('shocked_cleaned.mp4')
         self.shok_audio = self.get_m('shocked_cleaned.wav')
         self.shok = random.randint(500,600)
 
+        self.cont_vid = self.get_m('continued.mp4')
+        self.cont_audio = self.get_m('continued_cleaned.wav')
+        self.cont = random.randint(300,400)
+
+        self.vergil_vid = self.get_m('cut.mp4')
+        self.vergil_audio = self.get_m('cut_cleaned.mp3')
+        self.vergil = random.randint(3,4)
+
+        self.speed_vid = self.get_m('speed.mp4')
+        self.speed_audio = self.get_m('speed_cleaned.mp3')
+        self.speed = random.randint(3,4)
+
+        # audio
+        self.sound = None
+        self.speed_music = str(self.audio / 'spdrunmusic.mp3')
+
         self.place_timelabel()
         # load dictionary keys
         self.load_dict()
         self.meme_start()
+        mixer.init()
     
 
     def load_dict(self):
         # configure video setup
-        # self.dic_img['cena'] = self.cena_vid, self.cena_audio, 0.4675, 0.533
-        # self.dic_img['franku'] = self.franku_vid, self.franku_audio, 0.80, 0.80
-        self.dic_img['shocked'] = self.shok_vid, self.shok_audio, 0.50, 0.54
+        self.dic_img = {
+            'cena' :   (self.cena_vid, self.cena_audio, 0.4675, 0.533),
+            'franku' : (self.franku_vid, self.franku_audio, 0.80, 0.80),
+            'shocked' :(self.shok_vid, self.shok_audio, 0.50, 0.54),
+            'cont' :   (self.cont_vid, self.cont_audio, 0.50, 0.50),
+            'vergil' : (self.vergil_vid, self.vergil_audio, 0.50, 0.50),
+            'speed' :  (self.speed_vid, self.speed_audio, 0.50, 0.50),
+        }
+        keyb.add_hotkey('z', lambda : self.play_video('vergil'))
+        keyb.add_hotkey('a', lambda : self.play_video('cont'))
+        keyb.add_hotkey('q', lambda : self.play_video('speed'))
 
 
     def get_m(self,filename):
@@ -70,13 +98,14 @@ class Meme(MemeWin):
         #     print(self.franku)
 
         if time_ > self.shok:
-            self.shok = self.play_meme('shocked', self.shok, 500)
+            self.shok = self.play_meme('shocked', self.shok, 2600)
             
         self.root.after(20,self.run_meme_timer)
 
 
     def run_timer(self):
         if not self.timer_running:
+            self.sound.stop()
             return
 
         float = time.time() - self.start_time
@@ -102,7 +131,7 @@ class Meme(MemeWin):
             self.play_video(keyname)
             # increment time trigger
             time_var += inc_time
-            time_var = random.randint(time_var, time_var+2) # 200
+            time_var = random.randint(time_var, time_var+200) # 200
             # reset
             self.playing_video = False
 
@@ -122,6 +151,9 @@ class Meme(MemeWin):
         # starts timer
         self.start_time = time.time()
         self.run_timer()
+        self.sound =  mixer.Sound(self.speed_music)
+        self.sound.play()
+
     
 
     def meme_start(self):
@@ -158,6 +190,7 @@ class Meme(MemeWin):
 
     def exit_(self):
         self.running = False
+        mixer.quit()
         self.root.destroy()
         exit(0)
 
