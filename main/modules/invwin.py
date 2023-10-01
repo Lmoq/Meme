@@ -47,7 +47,6 @@ class MemeWin(InvWin):
         """Initial read and play video frames by chunks""" 
         del self.frame_list
         self.frame_list = []
-
         for i in range(20):
             ret, frames = self.videocapture.read()
             if ret:
@@ -56,11 +55,11 @@ class MemeWin(InvWin):
                 self.frame_list.append(ImageTk.PhotoImage(image=Image.fromarray(frame)))
             else:
                 self.videocapture.release()
-        
+
         if audio:
             sound = mixer.Sound(audio)
             sound.play()
-        
+
         self.display_frames(self.frame_list,label)
     
 
