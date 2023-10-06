@@ -89,6 +89,21 @@ class Meme(MemeWin):
         self.root.after(20,self.run_meme_timer)
 
 
+    def play_meme(self, keyname:str, time_var : int, inc_time:int) -> int:
+        """Returns incremented time trigger value, time_var += inc_time 
+        """
+        # keep condition from executing more than once in instant
+        if not self.playing_video:
+            # unpack values from dictionary
+            vid, audio, x, y = self.vid_dict[keyname]
+            self.play_video(vid,audio,x,y)
+            # increment time trigger
+            time_var += inc_time
+            time_var = random.randint(time_var, time_var+100) # 200
+
+            return time_var
+        
+    
     def run_timer(self):
         # speedrun timer
         if not self.timer_running:
@@ -103,23 +118,6 @@ class Meme(MemeWin):
             self.timer_label['text'] = time_str
 
         self.root.after(20,self.run_timer)
-    
-
-    def play_meme(self, keyname:str, time_var : int, inc_time:int) -> int:
-        """Returns incremented time trigger value -> inc_time : int = Increment time for next call
-        keyname : str = Get data frame from dictionary key,
-        time_var : int =  time referrence
-        """
-        # keep condition from executing more than once in instant
-        if not self.playing_video:
-            # unpack values from dictionary
-            vid, audio, x, y = self.vid_dict[keyname]
-            self.play_video(vid,audio,x,y)
-            # increment time trigger
-            time_var += inc_time
-            time_var = random.randint(time_var, time_var+100) # 200
-
-            return time_var
 
 
     def format_time(self,time:float):

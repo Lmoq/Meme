@@ -15,7 +15,7 @@ class MemeWin:
         """Tkinter window that plays video frames"""
         self.root = None
         self.playing_video = False
-        # green screen videos into solid black background
+        # green screen videos into solid black background to create green screen effect
         self.win_bg = 'black'
         self.text_color = 'white'
         self.sac_color = self.win_bg
@@ -68,14 +68,13 @@ class MemeWin:
 
 
     def read_play(self,label,audio=None):
-        """Initial read and play video frames""" 
-        # del self.frame_list
+        """Initial read and play video frames"""
         frame_list = []
         for _ in range(20):
             ret, frames = self.videocapture.read()
             if ret:
                 frame = cv.cvtColor(frames,cv.COLOR_BGR2RGB)
-                # feed queue with chunks of pyimages
+                # append list with pyimages
                 frame_list.append(ImageTk.PhotoImage(image=Image.fromarray(frame)))
             else:
                 self.videocapture.release()
@@ -88,13 +87,12 @@ class MemeWin:
     
 
     def append_frames(self,frame_list):
-        """Append video frames to newframe_list by 20""" 
         def append():    
             for _ in range(20):
                 ret, frames = self.videocapture.read()
                 if ret:
                     frame = cv.cvtColor(frames,cv.COLOR_BGR2RGB)
-                    # feed queue with chunks of pyimages
+                    # append list with pyimages
                     frame_list.append(ImageTk.PhotoImage(image=Image.fromarray(frame)))
                 else:
                     self.videocapture.release()
