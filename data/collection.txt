@@ -745,8 +745,8 @@ blue archive
 archive blue
 bluearchive
 archiveblue
-help vergil
-vergil help
+helpvergil
+vergilhelp
 help me vergil
 vergil please help me
 i need help vergil

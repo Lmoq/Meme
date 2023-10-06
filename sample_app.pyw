@@ -62,7 +62,7 @@ class Meme(MemeWin):
             # 'franku' :     (get_m('franku.mp4'),          get_m('franku.wav'),            0.80, 0.80),
             'shocked' :    (get_m('shocked.mp4'),         get_m('shocked.wav'),           0.50, 0.54),
             # 'cont' :       (get_m('continued.mp4'),       get_m('continued_cleaned.mp3'), 0.50, 0.50),
-            # 'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
+            'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
             # 'speed' :      (get_m('speed.mp4'),           get_m('speed_cleaned.mp3'),     0.50, 0.50),
             'prettygood' : (get_m('prettygood.mp4'),      get_m('prettygood.mp3'),        0.50, 0.50),
             'eyebrow' :    (get_m('eyebrow.mp4'),         get_m('eyebrow.mp3'),           0.80, 0.50)
