@@ -1,4 +1,7 @@
 **\.egg-info
 **\__pycache__
 **\tempCodeRunnerFile.py
+**\tempCodeRunnerFile.pyw
 **\.bin
+**\.env
+**\myutils.py
