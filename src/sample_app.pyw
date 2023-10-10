@@ -28,7 +28,6 @@ class Meme(MemeWin):
             Seting hidden to True will hide the window all the time until it plays video.
         """
         super().__init__(*args,**kwargs)
-        self.text_queue = Queue()
         self.running = True
         self.timer_running = False
         self.display_time = True
