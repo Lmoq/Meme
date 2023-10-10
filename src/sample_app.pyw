@@ -47,8 +47,7 @@ class Meme(MemeWin):
 
         self.media = Path(__file__).resolve().parent.parent / 'media'
         
-        # time trigger for playing memes
-        self.meme_t = random.randint(5,6)
+        self.meme_t = random.randint(5,6) # <--set your own time trigger for playing memes
 
         # dream speedrun audio
         self.speedm_path = str(self.media / 'spdrunmusic.mp3')
@@ -91,7 +90,7 @@ class Meme(MemeWin):
 
         if time_ > self.meme_t:
             random_meme = random.choice(list(self.vid_dict.keys()))
-            inc = random.randint(30, 2400)
+            inc = random.randint(30, 2400) # change time increment if desired
             self.meme_t = self.play_meme(random_meme, self.meme_t, inc )
             pass
         
