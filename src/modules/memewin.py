@@ -62,7 +62,7 @@ class MemeWin:
             self.playing_video = True
             self.read_play(video_label,aud_path)
 
-        if self.hidden and self.root.state() == 'withdrawn':
+        if self.root.state() == 'withdrawn':
             self.root.deiconify()
         
         # use threading to not block mainloop
