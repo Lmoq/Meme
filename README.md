@@ -18,5 +18,15 @@ meme meme meme
 - Meme
 - MEme
 
+```
+meme = meme
+if meme:
+    meme()
+```
+
+---
+
+~~Meme~~
+
 
 
