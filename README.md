@@ -11,7 +11,7 @@ Meme
 >Meme
 >emeM
 
-![meme!](/media/chib.png "Meme")
+<img src="https://github.com/Lmoq/Meme/blob/master/media/chib.png" width="300" height="300">
 
 1. Meme
 2. MEme
