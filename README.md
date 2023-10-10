@@ -11,7 +11,7 @@ Meme
 >Meme
 >emeM
 
-<img src="https://github.com/Lmoq/Meme/blob/master/media/chib.png" width="300" height="300">
+<img src="https://github.com/Lmoq/Meme/blob/master/media/faceindark.png" >
 
 1. Meme
 2. MEme
