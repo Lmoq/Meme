@@ -1,4 +1,4 @@
-## Usage :
+## Usage 
 - Clones this repo
 - Run the sample_app.pyw
 You can add your own videos then add them to dictionary
