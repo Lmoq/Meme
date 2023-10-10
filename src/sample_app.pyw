@@ -3,7 +3,7 @@ import random
 import tkinter as tk
 from pynput.keyboard import Listener
 from pathlib import Path
-from src import MemeWin
+from modules import MemeWin
 from queue import Queue
 from threading import Thread
 
@@ -99,18 +99,18 @@ class Meme(MemeWin):
 
 
     def play_meme(self, keyname:str, time_var : int, inc_time:int) -> int:
-        """Returns incremented time trigger value, time_var += inc_time 
-        """
+        """ Plays meme,also returns incremented time trigger value, 
+            -> time_var += inc_time"""
         # keep condition from executing more than once in instant
+        # by incrementing time trigger
         if not self.playing_video:
-            # unpack values from dictionary
+            # get keyname
             value = self.vid_dict.get(keyname)
             if value is None:
                 print('Keyname not in dict')
                 return
-            vid, audio, x, y = value
-
-            self.play_video(vid,audio,x,y)
+            vid, audio, offx, offy = value
+            self.play_video(vid, audio, offx, offy)
             # increment time trigger
             time_var += inc_time
             time_var = random.randint(time_var, time_var+200) # 200
@@ -121,17 +121,18 @@ class Meme(MemeWin):
     def run_timer(self):
         # speedrun timer
         if not self.timer_running:
-            self.sound.stop()
+            self.spdrun_sound.stop()
             return
 
         float = time.time() - self.start_time
         time_str = self.format_time(float)
 
         if self.display_time:
-            self.timer_label.lift()
             self.timer_label['text'] = time_str
-            if not self.mixer.get_busy():
-                self.spdrun_sound.play()
+
+        # loop music
+        if not self.mixer.get_busy():
+            self.spdrun_sound.play()
 
         self.root.after(20,self.run_timer)
 
@@ -149,7 +150,6 @@ class Meme(MemeWin):
         # starts speedrun timer with dream speedrun music
         self.start_time = time.time()
         self.run_timer()
-        self.spdrun_sound.play()
         self.root.deiconify()
 
     
@@ -170,7 +170,6 @@ class Meme(MemeWin):
         # reveal and hide timer
         self.display_time = not self.display_time
         if not self.display_time:
-            self.root.withdraw()
             self.timer_label['text']=" "
 
 
