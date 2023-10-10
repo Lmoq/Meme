@@ -98,7 +98,7 @@ class MemeWin:
                 label.destroy()
                 # delete list
                 self.del_list(frame_list)
-                if self.hidden:
+                if self.hidden == True:
                     self.root.withdraw()
                 return
             

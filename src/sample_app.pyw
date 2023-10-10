@@ -11,7 +11,7 @@ from threading import Thread
 class Meme(MemeWin):
 
 
-    def __init__(self,**kwargs):
+    def __init__(self,*args,**kwargs):
         """ 
             Randomly play green scren meme videos
 
@@ -27,7 +27,7 @@ class Meme(MemeWin):
 
             Seting hidden to True will hide the window all the time until it plays video.
         """
-        super().__init__(kwargs)
+        super().__init__(*args,**kwargs)
         self.text_queue = Queue()
         self.running = True
         self.timer_running = False
@@ -48,7 +48,7 @@ class Meme(MemeWin):
         self.media = Path(__file__).resolve().parent.parent / 'media'
         
         # time trigger for playing memes
-        self.meme_t = random.randint(200,300)
+        self.meme_t = random.randint(5,6)
 
         # dream speedrun audio
         self.speedm_path = str(self.media / 'spdrunmusic.mp3')
@@ -67,12 +67,12 @@ class Meme(MemeWin):
         # self.vid_dic = {vid_path, audio_path, labeloffx, labeloffy}
         get_m = self.get_m
         self.vid_dict = {
-            # 'cena' :       (get_m('bing_cleaned.mp4'),    get_m('bing.wav'),              0.4675, 0.533),
-            # 'franku' :     (get_m('franku.mp4'),          get_m('franku.wav'),            0.80, 0.80),
+            'cena' :       (get_m('bing_cleaned.mp4'),    get_m('bing.wav'),              0.4675, 0.533),
+            'franku' :     (get_m('franku.mp4'),          get_m('franku.wav'),            0.80, 0.80),
             'shocked' :    (get_m('shocked.mp4'),         get_m('shocked.wav'),           0.50, 0.54),
-            # 'cont' :       (get_m('continued.mp4'),       get_m('continued_cleaned.mp3'), 0.50, 0.50),
-            # 'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
-            # 'speed' :      (get_m('speed.mp4'),           get_m('speed_cleaned.mp3'),     0.50, 0.50),
+            'cont' :       (get_m('continued.mp4'),       get_m('continued_cleaned.mp3'), 0.50, 0.50),
+            'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
+            'speed' :      (get_m('speed.mp4'),           get_m('speed_cleaned.mp3'),     0.50, 0.50),
             'prettygood' : (get_m('prettygood.mp4'),      get_m('prettygood.mp3'),        0.50, 0.50),
             'eyebrow' :    (get_m('eyebrow.mp4'),         get_m('eyebrow.mp3'),           0.80, 0.50)
             }
