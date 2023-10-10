@@ -12,7 +12,10 @@ self.vid_dict = {
 
 <img src="https://github.com/Lmoq/Meme/blob/master/media/faceindark.png" >
 
-
+>hello
+>how are you
+>if name :
+>    func()
 
 
 
