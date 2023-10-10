@@ -4,20 +4,30 @@ import tkinter as tk
 from pynput.keyboard import Listener
 from pathlib import Path
 from src import MemeWin
-from pygame import mixer
 from queue import Queue
 from threading import Thread
-
 
 
 class Meme(MemeWin):
 
 
-    def __init__(self):
-        """Randomly play meme videos\n
-        Videos are set to my resolution 1366x768 and 24 fps"""
-        super().__init__()
-        
+    def __init__(self,**kwargs):
+        """ 
+            Randomly play green scren meme videos
+
+            This window uses black as sacrifical color.
+            Videos should be in a solid black background
+            for green screen effect to work.
+
+            hotkeys = {
+                (".","1") : self.toggle_timer, = start&stop spdrun timer\n
+                (".","2") : self.show_timer,   = hide and reveal spdrun timer\n
+                (".","0") : self.exit_,        = terminate app
+                }\n
+
+            Seting hidden to True will hide the window all the time until it plays video.
+        """
+        super().__init__(kwargs)
         self.text_queue = Queue()
         self.running = True
         self.timer_running = False
@@ -26,35 +36,34 @@ class Meme(MemeWin):
         self.start_time = 0
         self.meme_start_time = 0
         self.timer_label = None
+        
+        # data
+        self.w_collection = []
+        self.vid_dict = {}
         self.key_pressed_time = time.time()
         self.key_pressed_time2 = time.time()
         self.key_pressed = []
         self.key_pressed2 = []
 
-        self.media = Path(__file__).resolve().parent / 'media'
-        
-        # data
-        self.w_collection = []
-        self.vid_dict = {}
+        self.media = Path(__file__).resolve().parent.parent / 'media'
         
         # time trigger for playing memes
-        self.meme_t = random.randint(3,4)
+        self.meme_t = random.randint(200,300)
 
-        # speedrun audio
-        self.sound = None
-        self.speed_music = str(self.media / 'spdrunmusic.mp3')
-
+        # dream speedrun audio
+        self.speedm_path = str(self.media / 'spdrunmusic.mp3')
+        self.spdrun_sound =  self.mixer.Sound(self.speedm_path)
         self.place_timelabel()
-        # load dictionary keys
+        
+        # get paths and files
         self.load_dict()
         self.load_collections()
+
         self.meme_start()
-        
-        mixer.init()
     
 
     def load_dict(self):
-        # setup paths and label
+        # setup paths and label offset here
         # self.vid_dic = {vid_path, audio_path, labeloffx, labeloffy}
         get_m = self.get_m
         self.vid_dict = {
@@ -62,12 +71,12 @@ class Meme(MemeWin):
             # 'franku' :     (get_m('franku.mp4'),          get_m('franku.wav'),            0.80, 0.80),
             'shocked' :    (get_m('shocked.mp4'),         get_m('shocked.wav'),           0.50, 0.54),
             # 'cont' :       (get_m('continued.mp4'),       get_m('continued_cleaned.mp3'), 0.50, 0.50),
-            'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
+            # 'vergil' :     (get_m('vergil.mp4'),          get_m('vergil.mp3'),            0.50, 0.50),
             # 'speed' :      (get_m('speed.mp4'),           get_m('speed_cleaned.mp3'),     0.50, 0.50),
             'prettygood' : (get_m('prettygood.mp4'),      get_m('prettygood.mp3'),        0.50, 0.50),
             'eyebrow' :    (get_m('eyebrow.mp4'),         get_m('eyebrow.mp3'),           0.80, 0.50)
             }
-        
+
 
     def get_m(self,filename):
         return str(self.media / filename)
@@ -82,7 +91,7 @@ class Meme(MemeWin):
 
         if time_ > self.meme_t:
             random_meme = random.choice(list(self.vid_dict.keys()))
-            inc = random.randint(30,2400)
+            inc = random.randint(30, 2400)
             self.meme_t = self.play_meme(random_meme, self.meme_t, inc )
             pass
         
@@ -95,11 +104,16 @@ class Meme(MemeWin):
         # keep condition from executing more than once in instant
         if not self.playing_video:
             # unpack values from dictionary
-            vid, audio, x, y = self.vid_dict[keyname]
+            value = self.vid_dict.get(keyname)
+            if value is None:
+                print('Keyname not in dict')
+                return
+            vid, audio, x, y = value
+
             self.play_video(vid,audio,x,y)
             # increment time trigger
             time_var += inc_time
-            time_var = random.randint(time_var, time_var+100) # 200
+            time_var = random.randint(time_var, time_var+200) # 200
 
             return time_var
         
@@ -116,6 +130,8 @@ class Meme(MemeWin):
         if self.display_time:
             self.timer_label.lift()
             self.timer_label['text'] = time_str
+            if not self.mixer.get_busy():
+                self.spdrun_sound.play()
 
         self.root.after(20,self.run_timer)
 
@@ -133,13 +149,12 @@ class Meme(MemeWin):
         # starts speedrun timer with dream speedrun music
         self.start_time = time.time()
         self.run_timer()
-        self.sound =  mixer.Sound(self.speed_music)
-        self.sound.play()
+        self.spdrun_sound.play()
         self.root.deiconify()
 
     
     def meme_start(self):
-        """start meme timer"""
+        # start meme timer
         self.meme_start_time = time.time()
         self.run_meme_timer()
 
@@ -172,13 +187,14 @@ class Meme(MemeWin):
 
     def load_collections(self):
         # collection of not safe words
-        collection_path = Path(__file__).resolve().parent / 'data/collection.txt'
+        collection_path = Path(__file__).resolve().parent.parent / 'data/collection.txt'
         with open(collection_path,'r') as f:
             self.w_collection = f.read().split('\n')
         
 
     def add_hotkey(self):
-        # my ugly logic for listening hotkeys and typed keys
+        # listener for hotkeys and typed words
+        # dont forget to cleanse eyes after looking at this ugly logic
         hotkeys = {
             (".","1") : self.toggle_timer,
             (".","2") : self.show_timer,
@@ -186,64 +202,68 @@ class Meme(MemeWin):
         }
 
         def check():
+            # check pressed combination
             for hotkey, callback in hotkeys.items():
-                if tuple(self.key_pressed) == hotkey:
+                if all(k in hotkey for k in self.key_pressed):
                     callback()
                     break
         
         def catch():
             # catch not safe typed words
-            text = ''.join(self.key_pressed2).split()
-            print(text)
-            for i in text:
+            word_list = ''.join(self.key_pressed2).split()
+            fullword = ' '.join(word_list)
+
+            print(fullword)
+
+            for i in word_list:
                 if i.lower() in self.w_collection:
+                    self.key_pressed2.clear()
                     self.play_meme('vergil',0,0)
-                    break
-
-        def listen_(key):
-            # listener for typed words
-            interval = time.time() - self.key_pressed_time2
-            self.key_pressed_time2 = time.time()
-
-            if interval < 3:
-                self.key_pressed2.append(key.strip("'") if 'Key' not in key else ' ')
-                catch()
-            else:
-                self.key_pressed_time2 = time.time()
+                    return
+            
+            if fullword and fullword in self.w_collection:
                 self.key_pressed2.clear()
-                self.key_pressed2.append(key.strip("'") if 'Key' not in key else '')
+                self.play_meme('vergil',0,0)
+            
 
-        def listen(key):
-            # listener for hotkeys, pressed in right sequence
-            # had problems with keyboard.add_hotkeys that's why im using pynput
-            interval = time.time() - self.key_pressed_time
-            self.key_pressed_time = time.time()
-
-            if interval < 0.10:
-                self.key_pressed.append(key.strip("'") if 'Key' not in key else ' ')
-                check()
+        def listen_(key, interval, callback, hotkeys = True, ):
+            if hotkeys:
+                time_var = self.key_pressed_time
+                keylist = self.key_pressed
             else:
-                self.key_pressed_time = time.time()
-                self.key_pressed.clear()
-                self.key_pressed.append(key.strip("'") if 'Key' not in key else '')
+                time_var = self.key_pressed_time2
+                keylist = self.key_pressed2
+            
+            interv_ = time.time() - time_var
+            time_var = time.time()
+
+            if interv_ < interval:
+                keylist.append(key.strip("'") if 'Key' not in key else ' ')
+                callback()
+            else:
+                time_var = time.time()
+                keylist.clear()
+                keylist.append(key.strip("'") if 'Key' not in key else '')
+                return time_var
+            return time_var
 
         def key_listener(key):
             key = str(key)
-            listen(key)
-            listen_(key)
+            self.key_pressed_time = listen_(key, 0.10, check) #hotkeys
+            self.key_pressed_time2 = listen_(key, 1.5, catch, False) #typed words
             
         with Listener(on_press=key_listener) as listener:
             listener.join()
 
     
-    def main(self):
+    def run(self):
         Thread(target=self.add_hotkey,daemon=True).start()
         self.root.mainloop()
 
 
     def exit_(self):
         self.running = False
-        mixer.quit()
+        self.mixer.quit()
         self.root.destroy()
         exit(0)
 
@@ -251,7 +271,7 @@ class Meme(MemeWin):
 
 
 if __name__=='__main__':
-    app = Meme()
-    app.main()
+    app = Meme(hidden=False)
+    app.run()
 
     pass
