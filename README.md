@@ -1,5 +1,6 @@
 ## Usage 
 - Clone this repo
+- pip install requirements.txt
 - Run the main.pyw
 Memes will start displaying at 3 to 4 seconds. You can adjust it when initializing the class.
 ```
@@ -40,13 +41,3 @@ app = Meme(hidden = False)
 ```
 
 <img src="https://github.com/Lmoq/Meme/blob/master/assets/timer.gif" >
-
-
-
-
-
-
-
-
-
-
