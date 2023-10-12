@@ -1,7 +1,7 @@
 ## Usage 
-- Clones this repo
-- Run the sample_app.pyw
-You can add your own videos then add them to dictionary
+- Clone this repo
+- Run the main.pyw
+You can add your own videos then add them to dictionary, inside main.pyw
 ```
 self.vid_dict = {
     'shocked' :    (get_m('shocked.mp4'),     get_m('shocked.wav'),           0.50, 0.54),
@@ -10,7 +10,12 @@ self.vid_dict = {
     }
 ```
 
-<img src="https://github.com/Lmoq/Meme/blob/master/media/faceindark.png" >
+## Features
+This application also has a keyboard listener, vergil will interrupt if you typed degen words, nsfw, or asked for motivation.
+<img src="https://github.com/Lmoq/Meme/blob/master/assets/faceindark.png" >
+
+
+<img src="https://github.com/Lmoq/Meme/blob/master/assets/faceindark.png" >
 
 >hello
 >how are you
