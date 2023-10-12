@@ -1,18 +1,19 @@
 ## Usage 
 - Clone this repo
 - Run the main.pyw
+- The fullscreen videos' resolutions are currently at 1366x768.
 
-This will only work on top of non fullscreen apps. Memes will start displaying at 3 to 4 seconds. You can customize it when initializing the class.
+This will only work on top of non fullscreen apps. Memes will start displaying at 3 to 4 seconds. You can adjust it when initializing the class.
 ```
 app = Meme(
     meme_start = (3, 4), 
     inc_time = (30, 2400), 
     hidden = True)
 ```
-You can switch so memelite branch for slow network, and if you just want to test it out.
+- You can switch so memelite branch for slow network, or if you just want to test it out.
 ---
 ## Customization
-You can add more videos, just use black background and remove green screen. I used davinci resolve and did a basic green screen edit. Just modify the dictionary inside main.pyw, adjust the offset if the frames displayed are in wrong coordinates.
+If you want to add more videos, edit a green screen video to a black background. I used davinci resolve and did a basic green screen edit, that's why videos seems poorly edited and doesnt sync with audio. Just modify the dictionary inside main.pyw, adjust the offset if the frames displayed are in wrong coordinates.
 ```
 # self.vid_dic = {keyname, (vid_path, audio_path), labeloffx, labeloffy}
 self.vid_dict = {
