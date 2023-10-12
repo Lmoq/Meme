@@ -77,11 +77,8 @@ class Meme(MemeWin):
         # self.vid_dic = {keyname, (vid_path, audio_path), labeloffx, labeloffy}
         get_m = self.get_m
         self.vid_dict = {
-            'cena' :       (get_m('bing.mp4'),        get_m('bing.wav'),        0.4675, 0.533),
-            'franku' :     (get_m('franku.mp4'),      get_m('franku.wav'),      0.80, 0.80),
             'shocked' :    (get_m('shocked.mp4'),     get_m('shocked.wav'),     0.50, 0.54),
             'cont' :       (get_m('continued.mp4'),   get_m('continued.wav'),   0.50, 0.50),
-            'vergil' :     (get_m('vergil.mp4'),      get_m('vergil.mp3'),      0.50, 0.50),
             'prettygood' : (get_m('prettygood.mp4'),  get_m('prettygood.mp3'),  0.50, 0.50),
             'eyebrow' :    (get_m('eyebrow.mp4'),     get_m('eyebrow.mp3'),     0.80, 0.50)
             }
