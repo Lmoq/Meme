@@ -1,19 +1,22 @@
 ## Usage 
 - Clone this repo
 - Run the main.pyw
-- The fullscreen videos' resolutions are currently at 1366x768.
-
-This will only work on top of non fullscreen apps. Memes will start displaying at 3 to 4 seconds. You can adjust it when initializing the class.
+Memes will start displaying at 3 to 4 seconds. You can adjust it when initializing the class.
 ```
 app = Meme(
     meme_start = (3, 4), 
     inc_time = (30, 2400), 
     hidden = True)
 ```
-- You can switch so memelite branch for slow network, or if you just want to test it out.
+## Note
+- This will only work on top of non fullscreen apps. 
+- The fullscreen videos are only available in 1366x768, and the label offsets are based on this resolution.
+- You can switch to memelite branch for slow network, or if you just want to test it out.
 ---
 ## Customization
-If you want to add more videos, edit a green screen video to a black background. I used davinci resolve and did a basic green screen edit, that's why videos seems poorly edited and doesnt sync with audio. Just modify the dictionary inside main.pyw, adjust the offset if the frames displayed are in wrong coordinates.
+- If you want to add more videos, edit a green screen video to a black background with the audio file separated.
+- I used davinci resolve and did a basic green screen edit, that's why videos seems poorly edited and doesnt sync with audio. 
+- Then modify the dictionary inside main.pyw and adjust the offset if the frames displayed are in wrong coordinates.
 ```
 # self.vid_dic = {keyname, (vid_path, audio_path), labeloffx, labeloffy}
 self.vid_dict = {
@@ -38,12 +41,7 @@ app = Meme(hidden = False)
 
 <img src="https://github.com/Lmoq/Meme/blob/master/assets/timer.gif" >
 
-<img src="https://github.com/Lmoq/Meme/blob/master/assets/faceindark.png" >
 
->hello
->how are you
->if name :
->    func()
 
 
 
