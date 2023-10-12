@@ -4,17 +4,29 @@ import tkinter as tk
 from pynput.keyboard import Listener
 from pathlib import Path
 from modules import MemeWin
-from queue import Queue
 from threading import Thread
 
 
 class Meme(MemeWin):
 
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self,*args,meme_start=(3,4),inc_time=(30,2400),**kwargs):
         """ 
-            Randomly play green scren meme videos
+            Randomly play green screen meme videos
+            
+            Parameters
+            :param (tuple) meme_start : Time when memes will be displayed, 
+                                        tuple of int that will be passed 
+                                        to random.randint().
 
+            :param (tuple) inc_time : Increment time after 
+                                      every meme display. 
+                                      You can use wide range
+                                      to completely randomize time
+            
+            :param (bool)  hidden : Seting hidden to True will hide 
+                                    the window all the time until it plays video.
+                                
             This window uses black as sacrifical color.
             Videos should be in a solid black background
             for green screen effect to work.
@@ -25,7 +37,6 @@ class Meme(MemeWin):
                 (".","0") : self.exit_,        = terminate app
                 }\n
 
-            Seting hidden to True will hide the window all the time until it plays video.
         """
         super().__init__(*args,**kwargs)
         self.running = True
@@ -46,7 +57,8 @@ class Meme(MemeWin):
 
         self.media = Path(__file__).resolve().parent.parent / 'media'
         
-        self.meme_t = random.randint(5,6) # <--set your own time trigger for playing memes
+        self.meme_t = random.randint(meme_start[0],meme_start[1])
+        self.inc_time = inc_time
 
         # dream speedrun audio
         self.speedm_path = str(self.media / 'spdrunmusic.mp3')
@@ -87,8 +99,9 @@ class Meme(MemeWin):
         time_ = time.time() - self.meme_start_time
 
         if time_ > self.meme_t:
+            # plays random meme and increment time trigger
             random_meme = random.choice(list(self.vid_dict.keys()))
-            inc = random.randint(30, 2400) # change time increment if desired
+            inc = random.randint(self.inc_time[0], self.inc_time[1])
             self.meme_t = self.play_meme(random_meme, self.meme_t, inc )
             pass
         
@@ -116,7 +129,7 @@ class Meme(MemeWin):
         
     
     def run_timer(self):
-        # speedrun timer
+        # speedrun timer w/ dream speedrun music
         if not self.timer_running:
             self.spdrun_sound.stop()
             return
@@ -267,7 +280,13 @@ class Meme(MemeWin):
 
 
 if __name__=='__main__':
-    app = Meme(hidden=True)
+    app = Meme(
+        meme_start = (3, 4), 
+        inc_time = (30, 2400), 
+        hidden = True)
     app.run()
 
     pass
+
+
+
