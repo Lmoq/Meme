@@ -74,7 +74,7 @@ class Meme(MemeWin):
 
     def load_dict(self):
         # setup paths and label offset here
-        # self.vid_dic = {vid_path, audio_path, labeloffx, labeloffy}
+        # self.vid_dic = {keyname, (vid_path, audio_path), labeloffx, labeloffy}
         get_m = self.get_m
         self.vid_dict = {
             'cena' :       (get_m('bing.mp4'),        get_m('bing.wav'),        0.4675, 0.533),
