@@ -12,7 +12,7 @@ self.vid_dict = {
 
 ## Features
 This application also has a keyboard listener, vergil will interrupt if you typed degen words, nsfw, or asked for motivation.
-<img src="https://github.com/Lmoq/Meme/blob/master/assets/faceindark.png" >
+<img src="https://github.com/Lmoq/Meme/blob/master/assets/verg.gif" >
 
 
 <img src="https://github.com/Lmoq/Meme/blob/master/assets/faceindark.png" >
