@@ -78,7 +78,6 @@ class Meme(MemeWin):
         get_m = self.get_m
         self.vid_dict = {
             'shocked' :    (get_m('shocked.mp4'),     get_m('shocked.wav'),     0.50, 0.54),
-            'cont' :       (get_m('continued.mp4'),   get_m('continued.wav'),   0.50, 0.50),
             'prettygood' : (get_m('prettygood.mp4'),  get_m('prettygood.mp3'),  0.50, 0.50),
             'eyebrow' :    (get_m('eyebrow.mp4'),     get_m('eyebrow.mp3'),     0.80, 0.50)
             }
