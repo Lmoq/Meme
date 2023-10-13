@@ -1,3 +1,5 @@
+# Meme-inator
+This app plays or interrupts you with memes, you can use this to annoy your friends or yourself. This uses tkinter and display video frames to a label. The video used are edited green screens.
 ## Usage 
 - Clone this repo
 - pip install requirements.txt
